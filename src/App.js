@@ -2,37 +2,34 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const axios = require('axios');
 const API = 'https://localhost:5000/';
 
 class App extends Component {
-  constructor (props) {
-    super(props)
+  state = {
+    response: ''
+  };
 
-    this.state = {
-      data: null,
-    };
-  }
-  
   componentDidMount() {
-    axios.get(API)
-    .then(function (response) {
-      // handle success
-      console.log(response);
-    })
+    this.callApi()
+      .then(res => this.setState({ response: res.YT_id }))
+      .catch(err => console.log(err));
   }
+
+  callApi = async () => {
+    const response = await fetch('/api/hello');
+    const body = await response.json();
+
+    if (response.status !== 200) throw Error(body.message);
+
+    return body;
+  };
 
   render() {
-    console.log(this.state.data);
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          { this.state.data }
-        </p>
+        <iframe id="player" type="text/html" width="640" height="390"
+          src={ this.state.response }
+          frameborder="0"></iframe>
       </div>
     );
   }
