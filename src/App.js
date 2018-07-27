@@ -34,7 +34,8 @@ class App extends Component {
   }
 
   getCurrentSong = async () => {
-    const response = await fetch('/api/getSong');
+    console.log('getCurrentSong');
+    const response = await fetch('https://djfoliobackendbot.herokuapp.com/api/getSong');
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
