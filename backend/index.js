@@ -2,7 +2,6 @@ const express = require('express');
 const https = require('https');
 const request = require('request');
 const key = 'AIzaSyANFzcN4h9L4qwdwdarPR__Nv2ETalSfVg';
-const search_url = 'https://www.googleapis.com/youtube/v3/search?';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -58,7 +57,7 @@ app.get('/api/add-song', (req, res) => {
   var videoTitle;
   var params = req.params;
   var keyword = params['keyword'];
-  https.get('https://www.googleapis.com/youtube/v3/search?q=sss&part=snippet&key=AIzaSyANFzcN4h9L4qwdwdarPR__Nv2ETalSfVg&maxResults=1', (res) => {
+  https.get(`https://www.googleapis.com/youtube/v3/search?q=${keyword}&part=snippet&key=${key}&maxResults=1`, (res) => {
     res.on('data', (data) => {
       d = JSON.parse(data);
       videoId = d.items[0].id.videoId;
