@@ -9,16 +9,14 @@ const port = process.env.PORT || 5000;
 let currentSecond = 0;
 let video_queue = [];
 
-let intervalObj = setInterval(() => {
+setInterval(() => {
   if (video_queue.length > 0) {
     currentSecond = currentSecond + 1;
-
+    console.log(currentSecond);
     if (currentSecond === video_queue[0].duration) {
       currentSecond = 0;
       video_queue.shift();
     }
-  } else {
-    clearInterval(intervalObj);
   }
 }, 1000);
 
