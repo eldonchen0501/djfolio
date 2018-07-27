@@ -55,6 +55,24 @@ let convert_time = (duration) => {
   return duration
 };
 
+app.get('/api/getPlaylist', (req, res) => {
+  if (video_queue.length > 0) {
+    let playlist = video_queue.map(obj =>{
+      var rObj = {};
+      rObj['title'] = obj.title;
+      rObj['url'] = 'https://www.youtube.com/watch?v=' + obj.id
+      return rObj;
+    });
+
+    console.log('PlayList: ', playlist);
+    res.send({
+      video_queueLength: video_queue.length,
+      playlist: JSON.stringify(playlist)
+    })
+  } else {
+    res.send('No song left');
+  }
+});
 
 app.get('/api/getSong', (req, res) => {
   if (video_queue.length > 0) {

@@ -21,11 +21,29 @@ class App extends Component {
         queueLength: res.video_queueLength,
         playlist: JSON.parse(res.playlist)
       }))
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
+    setInterval(() => {
+      console.log('getting updated playlist')
+      this.getPlaylist()
+      .then(res => this.setState({
+        queueLength: res.video_queueLength,
+        playlist: JSON.parse(res.playlist)
+      }))
+      .catch(err => console.error(err));
+    }, 5000);
   }
 
   getCurrentSong = async () => {
     const response = await fetch('/api/getSong');
+    const body = await response.json();
+
+    if (response.status !== 200) throw Error(body.message);
+
+    return body;
+  };
+
+  getPlaylist = async () => {
+    const response = await fetch('/api/getPlaylist');
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
