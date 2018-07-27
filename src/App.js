@@ -8,7 +8,7 @@ class App extends Component {
     title: '',
     YT_id: '',
     seconds: '',
-    queueLength: '',
+    queueLength: 0,
     playlist: []
   };
 
@@ -18,7 +18,7 @@ class App extends Component {
         title: res.title, 
         YT_id: res.YT_id, 
         seconds: res.seconds, 
-        queueLength: res.queueLength,
+        queueLength: res.video_queueLength,
         playlist: JSON.parse(res.playlist)
       }))
       .catch(err => console.log(err));
@@ -40,7 +40,7 @@ class App extends Component {
         title: res.title, 
         YT_id: res.YT_id, 
         seconds: res.seconds, 
-        queueLength: res.queueLength,
+        queueLength: res.video_queueLength,
         playlist: JSON.parse(res.playlist)
       }))
       .catch(err => console.log(err));
