@@ -8,9 +8,6 @@ const port = process.env.PORT || 5000;
 
 let currentSecond = 0;
 let video_queue = [
-  // { title: 'X-Japan - Kurenai', id: 'N6lKT8REALw', duration: 414 },
-  // { title: 'X JAPAN - Rusty Nail(PV)', id: 'IXvreqrrh3o', duration: 329 },
-  // { title: 'DESTINY - GALNERYUS', id: '-hL-iO86vdI', duration: 330 }
 ];
 
 let playlist = video_queue.map(obj =>{
@@ -66,7 +63,8 @@ let convert_time = (duration) => {
   }
   console.log('after convert: ', duration);
   return duration
-}
+};
+
 
 app.get('/api/getSong', (req, res) => {
   if (video_queue.length > 0) {
@@ -93,7 +91,7 @@ app.get('/api/add-song', (req, cli_res) => {
   https.get(`https://www.googleapis.com/youtube/v3/search?q=${keyword}&part=snippet&key=${key}&maxResults=1`, (res) => {
     res.on('data', (data) => {
       d = JSON.parse(data);
-      if(d.items[0]){
+      if(d.items[0] && d.items[0].id.videoId){
         videoId = d.items[0].id.videoId;
         videoTitle = d.items[0].snippet.title;
         console.log('request url: ', `https://content.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyANFzcN4h9L4qwdwdarPR__Nv2ETalSfVg`);
