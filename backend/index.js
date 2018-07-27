@@ -7,15 +7,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 let currentSecond = 0;
-let video_queue = [
-];
-
-let playlist = video_queue.map(obj =>{
-  var rObj = {};
-  rObj['title'] = obj.title;
-  rObj['url'] = 'https://www.youtube.com/watch?v=' + obj.id
-  return rObj;
-});
+let video_queue = [];
 
 let intervalObj = setInterval(() => {
   if (video_queue.length > 0) {
@@ -68,6 +60,15 @@ let convert_time = (duration) => {
 
 app.get('/api/getSong', (req, res) => {
   if (video_queue.length > 0) {
+    let playlist = video_queue.map(obj =>{
+      var rObj = {};
+      rObj['title'] = obj.title;
+      rObj['url'] = 'https://www.youtube.com/watch?v=' + obj.id
+      return rObj;
+    });
+
+    console.log('PlayList: ', playlist);
+
     currentSong = video_queue[0];
 
     res.send({
@@ -101,7 +102,7 @@ app.get('/api/add-song', (req, cli_res) => {
             // console.log(data);
             videoDuration = convert_time(data.items[0].contentDetails.duration.toString());
             video_queue.push({id: videoId, title: videoTitle, duration: videoDuration});
-            // console.log(video_queue);
+            console.log(video_queue);
             console.log('Song pushed in queue successfully');
             cli_res.send('Song added');
           }
